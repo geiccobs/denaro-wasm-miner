@@ -21,8 +21,14 @@ const getJSON = function (url, callback) {
     *
     * Therefore, unused functions reports are expected.
  */
-var response;
-function expPostJSON(url, data) {
+var response = new Map();
+function expGetResponse(workerId) {
+    let value = response.get(workerId);
+    response.delete(workerId);
+    return value;
+}
+
+function expPostJSON(url, data, workerId) {
     const xhr = new XMLHttpRequest();
 
     xhr.open('POST', url, false);
@@ -31,11 +37,11 @@ function expPostJSON(url, data) {
     xhr.send(JSON.stringify(data));
 
     if (xhr.status === 200) {
-        response = JSON.parse(xhr.response);
+        response.set(workerId, JSON.parse(xhr.response));
     }
 }
 
-function expGetJSON(url) {
+function expGetJSON(url, workerId) {
     const xhr = new XMLHttpRequest();
 
     xhr.open('GET', url, false);
@@ -44,6 +50,6 @@ function expGetJSON(url) {
     xhr.send();
 
     if (xhr.status === 200) {
-        response = xhr.response;
+        response.set(workerId, xhr.response);
     }
 }

@@ -157,15 +157,15 @@ func worker(start int, step int, res MiningInfoResult, address string) {
 					"txs":              txsInterface,
 					"id":               lastBlock.Id + 1,
 					"share_difficulty": difficulty,
-				})
+				}, start+1)
 
-				if js.Global().Get("response").Get("ok").Bool() {
-					js.Global().Set("response", js.Undefined())
+				var response = js.Global().Get("response").Get(strconv.Itoa(start + 1))
+				if response.Get("ok").Bool() {
 					log.Printf("Worker n.%d: SHARE ACCEPTED", start+1)
 					shares++
 				} else {
 					log.Printf("Worker n.%d: SHARE NOT ACCEPTED", start+1)
-					log.Println(js.Global().Get("response").Get("error").String())
+					log.Println(response.Get("error").String())
 					return
 				}
 			}
@@ -184,7 +184,7 @@ func worker(start int, step int, res MiningInfoResult, address string) {
 					"shares":       shares,
 					"mined_blocks": minedBlocks,
 					"last_update":  time.Now().Unix(),
-				})
+				}, start+1)
 
 				if elapsedTime > 90 {
 					found = false
@@ -205,14 +205,14 @@ func worker(start int, step int, res MiningInfoResult, address string) {
 				"block_content": hex.EncodeToString(_hex),
 				"txs":           txsInterface,
 				"id":            lastBlock.Id + 1,
-			})
+			}, start+1)
 
-			if js.Global().Get("response").Get("ok").Bool() {
-				js.Global().Set("response", js.Undefined())
+			var response = js.Global().Get("response").Get(strconv.Itoa(start + 1))
+			if response.Get("ok").Bool() {
 				log.Printf("Worker n.%d: BLOCK MINED", start+1)
 				minedBlocks++
 			} else {
-				log.Println(js.Global().Get("response").Get("error").String())
+				log.Println(response.Get("error").String())
 			}
 			return
 		}
@@ -233,10 +233,9 @@ func miner(_ js.Value, p []js.Value) any {
 	for {
 		log.Printf("Starting worker %d", workerId)
 
-		js.Global().Call("expGetJSON", nodeUrl+"get_mining_info")
+		js.Global().Call("expGetJSON", nodeUrl+"get_mining_info", workerId)
 
-		miningInfo := js.Global().Get("response").Get("result")
-		js.Global().Set("response", js.Undefined())
+		miningInfo := js.Global().Call("expGetResponse", workerId).Get("result")
 		lastBlock := miningInfo.Get("last_block")
 
 		pendingTransactionHashes := make([]string, 0)
