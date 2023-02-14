@@ -1,9 +1,11 @@
+//go:build js && wasm
+
 package main
 
 import (
-	"crypto/sha256"
 	"encoding/binary"
 	"encoding/hex"
+	"github.com/minio/sha256-simd"
 	"log"
 	"math"
 	"strconv"
