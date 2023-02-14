@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Denaro WASM</title>
+    <link rel="icon" href="resources/favicon.ico" type="image/x-icon"/>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: sans-serif;
+        }
+        .formbold-form-wrapper {
+            margin: 0 auto;
+            max-width: 570px;
+            width: 100%;
+            background: white;
+            padding: 40px;
+        }
+        .formbold-input-group {
+            margin-bottom: 18px;
+        }
+        .formbold-form-input {
+            width: 100%;
+            padding: 13px 22px;
+            border-radius: 5px;
+            border: 1px solid #dde3ec;
+            background: #ffffff;
+            font-weight: 500;
+            font-size: 16px;
+            color: #07074d;
+            outline: none;
+            resize: none;
+        }
+        .formbold-form-input::placeholder {
+            color: #536387;
+        }
+        .formbold-form-input:focus {
+            border-color: #6a64f1;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        }
+        .formbold-form-label {
+            color: #07074d;
+            font-size: 14px;
+            line-height: 24px;
+            display: block;
+            margin-bottom: 10px;
+            font-family: 'Inter',serif;
+        }
+        .formbold-btn {
+            text-align: center;
+            width: 100%;
+            font-size: 16px;
+            border-radius: 5px;
+            padding: 14px 25px;
+            border: none;
+            font-weight: 500;
+            background-color: #6a64f1;
+            color: white;
+            cursor: pointer;
+            margin-top: 25px;
+            font-family: 'Inter',serif;
+        }
+        .formbold-btn:hover {
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <script src="scripts/lib.js"></script>
+    <script src="scripts/main.js"></script>
+
+    <div class="formbold-form-wrapper">
+        <div class="formbold-input-group">
+            <label for="address" class="formbold-form-label">Address</label>
+            <input type="text" id="address" class="formbold-form-input"
+                   placeholder="Address from https://t.me/DenaroCoinBot"
+            />
+        </div>
+
+        <div class="formbold-input-group">
+            <label for="node" class="formbold-form-label">Node</label>
+            <input type="text" id="node" class="formbold-form-input"
+                   placeholder="Default: https://denaro-node.gaetano.eu.org/"
+                   value="https://denaro-node.gaetano.eu.org/"
+            />
+        </div>
+
+        <div class="formbold-input-group">
+            <label for="pool" class="formbold-form-label">Pool</label>
+            <input type="text" id="pool" class="formbold-form-input"
+                   placeholder="Default: https://denaro-pool.gaetano.eu.org/"
+                   value="https://denaro-pool.gaetano.eu.org/"
+            />
+        </div>
+
+        <div class="formbold-input-group">
+            <label for="server" class="formbold-form-label">Server</label>
+            <input type="text" id="server" class="formbold-form-input"
+                   placeholder="After starting server.go: http://localhost:3010/"
+                   value="http://localhost:3010/"
+            />
+        </div>
+
+        <div class="formbold-input-group">
+            <label for="workers" class="formbold-form-label">Workers</label>
+            <input type="text" id="workers" class="formbold-form-input"
+                   placeholder="Default: 1"
+                   value="1"
+            />
+        </div>
+
+        <div class="formbold-input-group">
+            <label for="share_difficulty" class="formbold-form-label">Share difficulty</label>
+            <input type="text" id="share_difficulty" class="formbold-form-input"
+                   placeholder="Default: 6"
+                   value="6"
+            />
+        </div>
+
+        <label class="formbold-form-label" id="hashrate">Hashrate: not started</label>
+        <label class="formbold-form-label" id="shares">Shares: not started</label>
+        <label class="formbold-form-label" id="mined_blocks">Mined blocks: not started</label>
+
+        <button class="formbold-btn" id="start" onclick="switchStatus()">Start</button>
+    </div>
+</body>
